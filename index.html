@@ -83,7 +83,6 @@
   }
   nav a:hover::after{ width: 100%; }
 
-  /* Mobile Hamburger Menu */
   .nav-toggle{
     display:none; background:none; border:1px solid var(--line); color: var(--text);
     font-family: var(--mono); font-size: 12px; padding: 6px 10px; cursor: pointer; border-radius: 2px;
@@ -97,7 +96,6 @@
 
   section{ position: relative; z-index: 1; padding: 130px 6vw 90px; max-width: 1180px; margin: 0 auto; }
 
-  /* ---------- HERO ---------- */
   .hero{
     min-height: 100vh; display:flex; flex-direction: column; justify-content:center;
     padding-top: 90px; padding-bottom: 60px;
@@ -144,7 +142,6 @@
   }
   @keyframes pulse-line{ 0%,100%{opacity:0.3;} 50%{opacity:1;} }
 
-  /* ---------- SECTION HEADERS ---------- */
   .section-head{ margin-bottom: 52px; }
   .section-tag{
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -156,7 +153,6 @@
   }
   .section-intro{ color: var(--text-dim); max-width: 62ch; margin-top: 14px; font-size: 1rem; }
 
-  /* ---------- ABOUT ---------- */
   .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: start; }
   .about-copy p{ color: var(--text-dim); margin: 0 0 18px; font-size: 1.02rem; }
   .about-copy strong{ color: var(--text); font-weight: 500; }
@@ -171,7 +167,6 @@
   .fact-row dt{ color: var(--text-faint); font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; margin:0; }
   .fact-row dd{ margin:0; color: var(--text); text-align: right; }
 
-  /* ---------- HERO ACTIONS ---------- */
   .hero-actions{ display:flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
   .btn{
     font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -182,18 +177,18 @@
   .btn.primary{ border-color: var(--brass-dim); color: var(--brass); }
   .btn.primary:hover{ background: var(--brass); color: var(--bg); }
 
-  /* ---------- PROJECT STORY CARDS ---------- */
   .story-card{
     border: 1px solid var(--line); border-radius: 2px; background: var(--bg-panel);
     margin-bottom: 42px; overflow: hidden;
   }
-  .story-photo{
-    aspect-ratio: 16/7; width: 100%;
-    background: var(--bg-panel-2);
-    display:flex; align-items:center; justify-content:center; text-align:center; padding: 20px;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; color: var(--text-faint);
-    border-bottom: 1px solid var(--line);
+  .story-image-wrap{
+    width: 100%; background: #000; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: center; align-items: center; overflow: hidden;
   }
+  .story-image-wrap img{
+    width: 100%; height: auto; display: block; object-fit: contain; max-height: 500px;
+  }
+  
   .story-body{ padding: 30px 32px 32px; }
   .story-head{
     display:flex; justify-content: space-between; align-items: baseline; gap: 14px; flex-wrap: wrap;
@@ -214,18 +209,23 @@
     font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--cyan);
     border: 1px solid rgba(111,207,192,0.35); padding: 4px 9px; border-radius: 2px;
   }
+  
+  .download-links{ display:flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+  .download-btn{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 6px 12px; border: 1px solid var(--cyan); color: var(--cyan); border-radius: 2px;
+    text-decoration: none; background: rgba(111,207,192,0.05); transition: background 0.2s, color 0.2s;
+  }
+  .download-btn:hover{ background: var(--cyan); color: var(--bg); }
 
-  /* ---------- GALLERY ---------- */
   .gallery-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
   .gallery-item{
-    aspect-ratio: 4/3;
-    background: var(--bg-panel-2);
+    aspect-ratio: 4/3; background: var(--bg-panel-2);
     border: 1px solid var(--line); border-radius: 2px;
     display:flex; align-items:center; justify-content:center; text-align:center; padding: 16px;
     font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--text-faint);
   }
 
-  /* ---------- LEADERSHIP / SKILLS ---------- */
   .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; }
   .card{
     background: var(--bg-panel); border: 1px solid var(--line); padding: 30px 28px; border-radius: 2px;
@@ -245,7 +245,6 @@
   }
   .skill-item .skill-detail{ color: var(--text-dim); font-size: 0.9rem; }
 
-  /* ---------- CONTACT ---------- */
   .contact-panel{
     display:flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 30px;
     border-top: 1px solid var(--line); padding-top: 44px;
@@ -308,17 +307,16 @@
     <div>
       <div class="eyebrow">Astrodynamics &middot; GNC &middot; Space Domain Awareness</div>
       <h1 class="name">JuHyeong <em>Jenny</em> Seon</h1>
-      <p class="role-line">Aerospace engineering student mapping the paths between where a spacecraft is and where it needs to be — from three-body orbit families to the hardware that keeps a satellite pointed correctly.</p>
+      <p class="role-line">Aerospace Engineering undergraduate specializing in CubeSat communication and ADCS subsystems[cite: 5]. Passionate about pursuing a PhD in astrodynamics with a focus on cislunar trajectory optimization and space domain awareness (SDA)[cite: 5].</p>
       <div class="hero-meta">
         <span>Saint Louis University</span> &middot;
         <span>Rising Senior</span> &middot;
         <span>Expected <b>May 2027</b></span> &middot;
-        <span>GPA <b>3.83</b>/4.0</span>
+        <span>GPA <b>3.83</b>/4.0[cite: 5]</span>
       </div>
       <div class="hero-actions">
-        <a class="btn primary" href="resume.pdf" target="_blank">Download Resume</a>
-        <a class="btn" href="https://github.com" target="_blank">GitHub</a>
-        <a class="btn" href="https://linkedin.com" target="_blank">LinkedIn</a>
+        <a class="btn primary" href="Black and White ATS-Friendly Simple Clean Resume CV.pdf" target="_blank">Download Resume</a>
+        <a class="btn" href="https://linkedin.com/in/juhyeong-seon-" target="_blank">LinkedIn</a>
       </div>
       <div class="scroll-cue">SCROLL TO PROJECTS</div>
     </div>
@@ -365,22 +363,22 @@
   </div>
   <div class="about-grid">
     <div class="about-copy">
-      <p>I'm an aerospace engineering undergraduate at <strong>Saint Louis University</strong>, most at home in the parts of the discipline that are really just applied mathematics: astrodynamics, trajectory optimization, space mission design, and guidance, navigation &amp; control.</p>
-      <p>Within that, I keep coming back to <strong>orbital mechanics</strong> and <strong>space domain awareness</strong> &mdash; the problem of knowing precisely where something is, and where it's going, in a dynamical system that doesn't hold still.</p>
-      <p>Alongside coursework, I serve as Communications Subsystem Co-Lead in SLU's Space Systems Research Lab, working on missions like SARDONYX (NS-12) and DARLA, alongside CFD research studying biomimetic filtration and whale gliding hydrodynamics.</p>
+      <p>I'm an aerospace engineering undergraduate at <strong>Saint Louis University</strong> (Tau Beta Pi - Missouri Epsilon), specializing in CubeSat development with a strong focus on communication and ADCS subsystems[cite: 5].</p>
+      <p>Passionate about pursuing a PhD in astrodynamics, with a research focus on trajectory optimization in the cislunar domain and space domain awareness (SDA)[cite: 5].</p>
+      <p>Alongside coursework, I serve as Communication Lead and Attitude Determination &amp; Control Lead in SLU's Space Systems Research Lab, and perform CFD research at Baleen Lab[cite: 5].</p>
       <div class="log-tags">
-        <span class="tag">Spacecraft GNC</span><span class="tag">ADCS</span><span class="tag">GNSS / EKF</span>
-        <span class="tag">SDR / RF Comms</span><span class="tag">Simulink GNC</span><span class="tag">CFD</span>
+        <span class="tag">Spacecraft GNC</span><span class="tag">ADCS</span><span class="tag">GNSS</span>
+        <span class="tag">RF Communications</span><span class="tag">Simulink</span><span class="tag">FreeFlyer</span>
       </div>
     </div>
     <div class="fact-panel">
       <dl>
-        <div class="fact-row"><dt>Program</dt><dd>Aerospace Engineering, BS</dd></div>
+        <div class="fact-row"><dt>Program</dt><dd>Aerospace Engineering, BS[cite: 5]</dd></div>
         <div class="fact-row"><dt>Status</dt><dd>Rising Senior</dd></div>
-        <div class="fact-row"><dt>Graduation</dt><dd>May 2027</dd></div>
-        <div class="fact-row"><dt>GPA</dt><dd>3.83 / 4.0</dd></div>
-        <div class="fact-row"><dt>Focus</dt><dd>Astrodynamics &amp; GNC</dd></div>
-        <div class="fact-row"><dt>Lab role</dt><dd>Comms Subsystem Co-Lead</dd></div>
+        <div class="fact-row"><dt>Graduation</dt><dd>May 2027[cite: 5]</dd></div>
+        <div class="fact-row"><dt>GPA</dt><dd>3.83 / 4.0[cite: 5]</dd></div>
+        <div class="fact-row"><dt>Honor</dt><dd>Tau Beta Pi - Missouri Epsilon[cite: 5]</dd></div>
+        <div class="fact-row"><dt>Lab Roles</dt><dd>Comms &amp; ADCS Lead</dd></div>
       </dl>
     </div>
   </div>
@@ -390,16 +388,18 @@
   <div class="section-head">
     <span class="section-tag">02 &mdash; Projects &amp; Research</span>
     <h2>Mission Hardware &amp; Simulations</h2>
-    <p class="section-intro">Detailed breakdown of contributions to SSRL CubeSat programs (SARDONYX &amp; DARLA), ground station RF troubleshooting, and CFD research.</p>
+    <p class="section-intro">Detailed breakdown of contributions to SSRL CubeSat programs (SARDONYX &amp; DARLA), ADCS simulation, ground station RF troubleshooting, and CFD research.</p>
   </div>
 
   <!-- Project 1: SARDONYX / DARLA Comms & Ground Station -->
   <div class="story-card">
-    <div class="story-photo">SARDONYX (NS-12) &amp; DARLA Ground Station Upgrades &amp; RF Troubleshooting</div>
+    <div class="story-image-wrap">
+      <img src="metadata/thumbnail.png" alt="Sardonyx Mission Poster Overview">
+    </div>
     <div class="story-body">
       <div class="story-head">
         <h3 class="story-title">CubeSat Communications &amp; Ground Station Troubleshooting</h3>
-        <span class="story-status">Active / Summer 2025 NASA MSGC Funded</span>
+        <span class="story-status">Active / Summer 2025 MOSGC Funded</span>
       </div>
       <div class="story-cols">
         <div class="story-col">
@@ -409,83 +409,95 @@
         <div class="story-col">
           <h4>My Contribution</h4>
           <ul>
-            <li>Served as Communications Subsystem Co-Lead managing UHF/S-Band operations[cite: 4].</li>
+            <li>Served as Communication Lead for CubeSat missions under NASA CSLI and AFRL-sponsored UNP[cite: 4, 5].</li>
             <li>Resolved ARES C++/Python dependency conflicts and BladeRF FPGA firmware errors[cite: 4].</li>
-            <li>Designed a MATLAB RF Toolbox hairpin bandpass filter and implemented GNU Radio signal processing[cite: 4].</li>
-            <li>Successfully isolated and eliminated spurious carrier noise by transitioning transmit operations to a half-duplex HackRF One SDR[cite: 4].</li>
+            <li>Designed ground station architecture and performed STK-based link budget analyses[cite: 5].</li>
+            <li>Conducted trade studies for S-band antenna and rotator systems[cite: 5].</li>
+            <li>Transitioned transmit operations to a half-duplex HackRF One SDR to eliminate carrier interference[cite: 4].</li>
           </ul>
         </div>
         <div class="story-col">
           <h4>Results</h4>
-          <p>Restored stable two-way telemetry link between ground station hardware and space flight models under NASA CSLI / University Nanosatellite Program frameworks[cite: 4].</p>
+          <p>Restored stable two-way telemetry link and optimized subsystem integration under NASA and Air Force research programs[cite: 4, 5].</p>
         </div>
       </div>
+      <div class="download-links">
+        <a class="download-btn" href="2026_MOSGC_Technical_Report_for_SEON.docx" download>↓ Download MOSGC Technical Report (.docx)</a>
+      </div>
       <div class="story-tags">
-        <span class="tag">RF Comms</span><span class="tag">BladeRF / HackRF</span><span class="tag">GNU Radio</span><span class="tag">MATLAB RF Toolbox</span><span class="tag">Python</span>
+        <span class="tag">RF Comms</span><span class="tag">STK</span><span class="tag">BladeRF / HackRF</span><span class="tag">GNU Radio</span><span class="tag">Python</span>
       </div>
     </div>
   </div>
 
-  <!-- Project 2: Simulink GNC & CubeSat Custom Pointing -->
+  <!-- Project 2: ADCS & Simulink GNC -->
   <div class="story-card">
-    <div class="story-photo">Simulink 12U CubeSat GNC Architecture &amp; Custom Pointing Model</div>
+    <div class="story-image-wrap" style="background:#10182b; padding:30px; font-family:var(--mono); color:var(--text-faint); font-size:12px; text-align:center;">
+      [ Simulink GNC Architecture &amp; Custom Pointing Model ]
+    </div>
     <div class="story-body">
       <div class="story-head">
-        <h3 class="story-title">Active Pointing &amp; EKF Navigation Pipeline</h3>
-        <span class="story-status">In Testing / Simulation</span>
+        <h3 class="story-title">Active Pointing &amp; ADCS Simulation</h3>
+        <span class="story-status">May 2026 &ndash; Present[cite: 5]</span>
       </div>
       <div class="story-cols">
         <div class="story-col">
           <h4>Problem</h4>
-          <p>A 12U CubeSat platform (SARDONYX) required precise attitude determination and active 6DOF close-proximity maneuvering relative to an uncontrolled tumbling space object[cite: 2].</p>
+          <p>CubeSat missions require robust attitude dynamics and pointing control using three-axis magnetorquers as primary actuators[cite: 5].</p>
         </div>
         <div class="story-col">
           <h4>My Contribution</h4>
           <ul>
-            <li>Engineered Simulink architecture for EKF state estimation using NovAtel OEM719 GNSS data parsing pipelines[cite: 1].</li>
-            <li>Implemented coordinate transformation blocks (ICRF, ECEF, NED, Body frames) via custom MATLAB Stateflow functions[cite: 1].</li>
-            <li>Modeled magnetic field dynamics (IGRF) and custom attitude control loops combining magnetorquers and cold-gas thrusters[cite: 1].</li>
+            <li>Led development of a MATLAB/Simulink ADCS simulation for attitude dynamics and pointing[cite: 5].</li>
+            <li>Evaluated magnetic control performance using FreeFlyer and Simulink[cite: 5].</li>
+            <li>Prototyped and tested three-axis magnetorquers via MATLAB-based coil parameter analysis[cite: 5].</li>
+            <li>Led ongoing development and testing of a GNSS receiver for navigation and ADCS integration[cite: 5].</li>
           </ul>
         </div>
         <div class="story-col">
           <h4>Results</h4>
-          <p>Fully functional simulation framework tracking pointing modes, detumbling sequences, and orbital perturbations under third-body gravity and solar radiation pressure[cite: 1].</p>
+          <p>Established a rigorous simulation and hardware prototyping workflow for attitude determination and control[cite: 5].</p>
         </div>
       </div>
+      <div class="download-links">
+        <a class="download-btn" href="bdot_sardonyx.slx" download>↓ Download Simulink Model (.slx)</a>
+      </div>
       <div class="story-tags">
-        <span class="tag">Simulink</span><span class="tag">Stateflow</span><span class="tag">GNC</span><span class="tag">EKF</span><span class="tag">Astrodynamics</span>
+        <span class="tag">Simulink</span><span class="tag">FreeFlyer</span><span class="tag">ADCS</span><span class="tag">Magnetorquers</span><span class="tag">GNSS</span>
       </div>
     </div>
   </div>
 
-  <!-- Project 3: CFD Research (Baleen Lab / FIRE-BALEEN) -->
+  <!-- Project 3: CFD Research (Baleen Lab) -->
   <div class="story-card">
-    <div class="story-photo">Computational Fluid Dynamics &mdash; FIRE-BALEEN Program</div>
+    <div class="story-image-wrap" style="background:#10182b; padding:30px; font-family:var(--mono); color:var(--text-faint); font-size:12px; text-align:center;">
+      [ Computational Fluid Dynamics &mdash; Baleen Lab ]
+    </div>
     <div class="story-body">
       <div class="story-head">
-        <h3 class="story-title">Biomimetic CFD &amp; Whale Hydrodynamics Research</h3>
-        <span class="story-status">Complete</span>
+        <h3 class="story-title">Unsteady CFD Analysis &mdash; Baleen Lab Research</h3>
+        <span class="story-status">January 2025 &ndash; May 2026[cite: 5]</span>
       </div>
       <div class="story-cols">
         <div class="story-col">
           <h4>Problem</h4>
-          <p>Evaluating crossflow filtration parameters and pressure-velocity coupling for bio-inspired microplastics extraction filters, alongside investigating lift generation during whale gliding[cite: 3].</p>
+          <p>Evaluating hydrodynamic performance of an autonomous surface platform designed for microplastic recovery in river and stream environments[cite: 5].</p>
         </div>
         <div class="story-col">
           <h4>My Contribution</h4>
           <ul>
-            <li>Utilized commercial CFD software SC/Tetra to simulate water tunnel flow fields across realistic whale models from photogrammetry[cite: 3].</li>
-            <li>Implemented SIMPLE, SIMPLER, and PISO schemes with upwind and QUICK discretization comparisons in MATLAB[cite: 3].</li>
-            <li>Analyzed pressure distributions and shear forces acting on the body during anhedral fluked gliding[cite: 3].</li>
+            <li>Conducted unsteady CFD analysis in SC/Tetra[cite: 5].</li>
+            <li>Developed 3D computational models and 8 million-element meshes with local refinement near critical flow regions[cite: 5].</li>
+            <li>Compared CFD results with Bernoulli-based theoretical predictions for validation[cite: 5].</li>
           </ul>
         </div>
         <div class="story-col">
           <h4>Results</h4>
-          <p>Quantified pressure stagnation gradients and uniform flow characteristics in the laboratory test flume, validating lift generation mechanisms[cite: 3].</p>
+          <p>Validated simulation consistency and improved resolution of critical flow features for microplastic recovery platforms[cite: 5].</p>
         </div>
       </div>
       <div class="story-tags">
-        <span class="tag">CFD</span><span class="tag">SC/Tetra</span><span class="tag">MATLAB</span><span class="tag">Baleen Lab</span>
+        <span class="tag">SC/Tetra</span><span class="tag">CFD</span><span class="tag">Mesh Refinement</span><span class="tag">SolidWorks</span>
       </div>
     </div>
   </div>
@@ -510,16 +522,16 @@
 <section id="lab">
   <div class="section-head">
     <span class="section-tag">04 &mdash; Lab &amp; Leadership</span>
-    <h2>Team Leadership &amp; Community Engagement</h2>
+    <h2>Team Leadership &amp; Lab Management</h2>
   </div>
   <div class="two-col">
     <div class="card">
-      <h3>Communications Subsystem Co-Lead &mdash; SSRL</h3>
-      <p>Directing radio frequency subsystem integration, UHF ground station network maintenance, and S-Band transceiver development for SLU's student-led satellite missions under NASA CSLI and Air Force Research Lab programs[cite: 2, 4].</p>
+      <h3>Communication &amp; ADCS Lead &mdash; SSRL</h3>
+      <p>Directing radio frequency subsystem integration, ground station troubleshooting, trade studies for S-band systems, and ADCS attitude dynamics simulation for SLU's student-led satellite missions[cite: 5].</p>
     </div>
     <div class="card">
-      <h3>Project &amp; Program Coordinator &mdash; Engineers Without Borders</h3>
-      <p>Coordinating long-term community outreach initiatives and structuring monthly engineering volunteer projects and technical training modules.</p>
+      <h3>Lab Manager &mdash; SSRL (August 2025 &ndash; Present)</h3>
+      <p>Managed internal event organization, facilitated general body meetings to promote collaboration, and coordinated with executive boards to enhance lab initiatives[cite: 5].</p>
     </div>
   </div>
 </section>
@@ -527,32 +539,24 @@
 <section id="skills">
   <div class="section-head">
     <span class="section-tag">05 &mdash; Toolset</span>
-    <h2>Languages &amp; Engineering Tools</h2>
+    <h2>Technical Skills &amp; Competencies</h2>
   </div>
   <div class="skills-grid">
     <div class="skill-item">
-      <span class="skill-label">Python &amp; MATLAB</span>
-      <div class="skill-detail">Data parsing pipelines, EKF navigation algorithms, Simulink modeling</div>
+      <span class="skill-label">Software &amp; Modeling</span>
+      <div class="skill-detail">SolidWorks, SC/Tetra, MATLAB, STK (Level 1 &amp; 2 Certified), Sedaro (Digital Twin), KiCad, Simulink, FreeFlyer[cite: 5]</div>
     </div>
     <div class="skill-item">
-      <span class="skill-label">Simulink &amp; Stateflow</span>
-      <div class="skill-detail">Spacecraft dynamics, orbit propagation, GNC architecture design</div>
+      <span class="skill-label">Engineering Focus</span>
+      <div class="skill-detail">CubeSat Subsystems, ADCS, RF Communications, Cislunar Trajectory Optimization, SDA</div>
     </div>
     <div class="skill-item">
-      <span class="skill-label">GNU Radio / SDR</span>
-      <div class="skill-detail">HackRF One, BladeRF, digital signal processing, RF filtering</div>
-    </div>
-    <div class="skill-item">
-      <span class="skill-label">KiCad / CAD</span>
-      <div class="skill-detail">RF switch board PCB layout, mechanical hardware schematics</div>
-    </div>
-    <div class="skill-item">
-      <span class="skill-label">CFD Software</span>
-      <div class="skill-detail">SC/Tetra mesh generation, boundary condition optimization</div>
+      <span class="skill-label">Soft Skills</span>
+      <div class="skill-detail">Collaboration, Communication, Problem-Solving, Time Management, Troubleshooting[cite: 5]</div>
     </div>
     <div class="skill-item">
       <span class="skill-label">Languages</span>
-      <div class="skill-detail">English (Technical/Formal), Korean (Native/Strategic)</div>
+      <div class="skill-detail">English (Fluent), Korean (Native)[cite: 5]</div>
     </div>
   </div>
 </section>
@@ -561,12 +565,11 @@
   <div class="contact-panel">
     <div class="contact-copy">
       <h2>Get in touch</h2>
-      <p>Open to professional opportunities and discussions regarding astrodynamics, GNC engineering, and space mission design.</p>
+      <p>Open to professional opportunities, PhD inquiries, and discussions regarding astrodynamics, GNC engineering, and space mission design.</p>
     </div>
     <div class="contact-links">
-      <a href="mailto:your.email@slu.edu">juhyeong.seon@slu.edu</a>
-      <a href="https://linkedin.com" target="_blank">linkedin.com/in/juhyeong-seon</a>
-      <a href="https://github.com" target="_blank">github.com/juhyeong-seon</a>
+      <a href="mailto:jseon01@slu.edu">jseon01@slu.edu[cite: 5]</a>
+      <a href="https://linkedin.com/in/juhyeong-seon-" target="_blank">linkedin.com/in/juhyeong-seon-[cite: 5]</a>
     </div>
   </div>
 </section>
@@ -576,7 +579,6 @@
 </footer>
 
 <script>
-  // Mobile Navigation Toggle Script
   const navToggle = document.getElementById('navToggle');
   const mobileNav = document.getElementById('mobileNav');
   navToggle.addEventListener('click', () => {
