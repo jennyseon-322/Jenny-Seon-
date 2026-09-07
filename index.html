@@ -218,14 +218,6 @@
   }
   .download-btn:hover{ background: var(--cyan); color: var(--bg); }
 
-  .gallery-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
-  .gallery-item{
-    aspect-ratio: 4/3; background: var(--bg-panel-2);
-    border: 1px solid var(--line); border-radius: 2px;
-    display:flex; align-items:center; justify-content:center; text-align:center; padding: 16px;
-    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--text-faint);
-  }
-
   .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; }
   .card{
     background: var(--bg-panel); border: 1px solid var(--line); padding: 30px 28px; border-radius: 2px;
@@ -285,7 +277,6 @@
   <nav>
     <a href="#about">About</a>
     <a href="#work">Projects</a>
-    <a href="#gallery">Gallery</a>
     <a href="#lab">Lab</a>
     <a href="#skills">Skills</a>
     <a href="#contact">Contact</a>
@@ -296,7 +287,6 @@
 <div class="mobile-nav" id="mobileNav">
   <a href="#about" class="mob-link">About</a>
   <a href="#work" class="mob-link">Projects</a>
-  <a href="#gallery" class="mob-link">Gallery</a>
   <a href="#lab" class="mob-link">Lab</a>
   <a href="#skills" class="mob-link">Skills</a>
   <a href="#contact" class="mob-link">Contact</a>
@@ -391,7 +381,7 @@
     <p class="section-intro">Detailed breakdown of contributions to SSRL CubeSat programs (SARDONYX &amp; DARLA), ADCS simulation, ground station RF troubleshooting, and CFD research.</p>
   </div>
 
-  <!-- Project 1: SARDONYX / DARLA Comms & Ground Station (새로 주신 포스터 사진 및 포스터 PDF 다운로드 링크 포함) -->
+  <!-- Project 1: SARDONYX / DARLA Comms & Ground Station -->
   <div class="story-card">
     <div class="story-image-wrap">
       <img src="thumbnail.png" alt="Sardonyx Mission Poster">
@@ -421,7 +411,6 @@
           <p>Restored stable two-way telemetry link and optimized subsystem integration under NASA and Air Force research programs[cite: 4, 5].</p>
         </div>
       </div>
-      <!-- MOSGC Technical Report 및 포스터 파일 다운로드 버튼 추가 -->
       <div class="download-links">
         <a class="download-btn" href="2026_MOSGC_Technical_Report_for_SEON.docx" download>↓ MOSGC Technical Report (.docx)</a>
         <a class="download-btn" href="msgc_poster_final.pdf" download>↓ Download Mission Poster (.pdf)</a>
@@ -505,25 +494,9 @@
   </div>
 </section>
 
-<section id="gallery">
-  <div class="section-head">
-    <span class="section-tag">03 &mdash; Gallery</span>
-    <h2>Lab &amp; Testing Visuals</h2>
-    <p class="section-intro">Documentation from hardware assembly, ground station tests, and simulation outputs.</p>
-  </div>
-  <div class="gallery-grid">
-    <div class="gallery-item">SARDONYX 12U Bus Assembly &amp; Cleanroom</div>
-    <div class="gallery-item">UHF Ground Station Antenna Setup</div>
-    <div class="gallery-item">MATLAB Hairpin Bandpass Filter S-Parameters</div>
-    <div class="gallery-item">Simulink GNC Architecture Schematic</div>
-    <div class="gallery-item">SC/Tetra CFD Pressure Contour Plot</div>
-    <div class="gallery-item">Baleen Lab Water Flume Setup</div>
-  </div>
-</section>
-
 <section id="lab">
   <div class="section-head">
-    <span class="section-tag">04 &mdash; Lab &amp; Leadership</span>
+    <span class="section-tag">03 &mdash; Lab &amp; Leadership</span>
     <h2>Team Leadership &amp; Lab Management</h2>
   </div>
   <div class="two-col">
@@ -540,7 +513,7 @@
 
 <section id="skills">
   <div class="section-head">
-    <span class="section-tag">05 &mdash; Toolset</span>
+    <span class="section-tag">04 &mdash; Toolset</span>
     <h2>Technical Skills &amp; Competencies</h2>
   </div>
   <div class="skills-grid">
