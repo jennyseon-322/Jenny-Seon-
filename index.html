@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JuHyeong Seon — Trajectory & Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0f1c;
+    --bg-panel: #10182b;
+    --bg-panel-2: #141e35;
+    --line: rgba(159,178,209,0.14);
+    --text: #ece7db;
+    --text-dim: #93a0b8;
+    --text-faint: #5c6a86;
+    --brass: #d9a857;
+    --brass-dim: #a17f45;
+    --cyan: #6fcfc0;
+    --serif: 'Spectral', serif;
+    --sans: 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  }
+
+  a{ color: inherit; }
+  a:focus-visible, button:focus-visible{ outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+  .starfield{
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 8% 12%, rgba(236,231,219,0.55), transparent),
+      radial-gradient(1px 1px at 22% 68%, rgba(236,231,219,0.4), transparent),
+      radial-gradient(1.5px 1.5px at 35% 22%, rgba(236,231,219,0.6), transparent),
+      radial-gradient(1px 1px at 48% 78%, rgba(236,231,219,0.35), transparent),
+      radial-gradient(1px 1px at 62% 35%, rgba(236,231,219,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 75% 15%, rgba(236,231,219,0.45), transparent),
+      radial-gradient(1px 1px at 85% 60%, rgba(236,231,219,0.5), transparent),
+      radial-gradient(1px 1px at 93% 85%, rgba(236,231,219,0.35), transparent),
+      radial-gradient(1.5px 1.5px at 15% 90%, rgba(236,231,219,0.4), transparent),
+      radial-gradient(1px 1px at 58% 8%, rgba(236,231,219,0.4), transparent);
+    background-repeat: repeat;
+    background-size: 100% 100%;
+    opacity: 0.8;
+  }
+
+  header{
+    position: fixed; top:0; left:0; right:0; z-index: 100;
+    display:flex; align-items:center; justify-content: space-between;
+    padding: 22px 6vw;
+    background: linear-gradient(to bottom, rgba(10,15,28,0.92), rgba(10,15,28,0));
+    backdrop-filter: blur(2px);
+  }
+  .brand{ font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--text-dim); text-decoration:none; }
+  .brand strong{ color: var(--brass); font-weight: 500; }
+  
+  nav{ display:flex; gap: 28px; }
+  nav a{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dim); text-decoration:none; position: relative; padding-bottom: 3px;
+    transition: color 0.25s ease;
+  }
+  nav a:hover{ color: var(--brass); }
+  nav a::after{
+    content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background: var(--brass);
+    transition: width 0.25s ease;
+  }
+  nav a:hover::after{ width: 100%; }
+
+  /* Mobile Hamburger Menu */
+  .nav-toggle{
+    display:none; background:none; border:1px solid var(--line); color: var(--text);
+    font-family: var(--mono); font-size: 12px; padding: 6px 10px; cursor: pointer; border-radius: 2px;
+  }
+  .mobile-nav {
+    display: none; position: fixed; top: 70px; left: 0; right: 0; background: var(--bg-panel);
+    border-bottom: 1px solid var(--line); padding: 20px 6vw; flex-direction: column; gap: 15px; z-index: 99;
+  }
+  .mobile-nav.active { display: flex; }
+  .mobile-nav a { font-family: var(--mono); font-size: 12px; color: var(--text-dim); text-decoration: none; text-transform: uppercase; }
+
+  section{ position: relative; z-index: 1; padding: 130px 6vw 90px; max-width: 1180px; margin: 0 auto; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 100vh; display:flex; flex-direction: column; justify-content:center;
+    padding-top: 90px; padding-bottom: 60px;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items:center;
+  }
+  .eyebrow{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 22px; display:flex; align-items:center; gap: 10px;
+  }
+  .eyebrow::before{ content:''; width: 26px; height:1px; background: var(--cyan); display:inline-block; }
+  h1.name{
+    font-family: var(--serif); font-weight: 400; font-size: clamp(2.6rem, 5.4vw, 4.4rem);
+    line-height: 1.05; margin: 0 0 6px; color: var(--text);
+  }
+  h1.name em{ font-style: italic; color: var(--brass); font-weight: 400; }
+  .role-line{
+    font-family: var(--sans); font-size: clamp(1.05rem, 1.6vw, 1.3rem); color: var(--text-dim);
+    margin: 18px 0 28px; max-width: 46ch; font-weight: 400;
+  }
+  .hero-meta{
+    display:flex; gap: 26px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px;
+    color: var(--text-faint); letter-spacing: 0.03em;
+  }
+  .hero-meta span{ color: var(--text-dim); }
+  .hero-meta b{ color: var(--brass-dim); font-weight: 500; }
+
+  .orbit-wrap{ position: relative; display:flex; align-items:center; justify-content:center; }
+  .orbit-wrap svg{ width: 100%; max-width: 460px; height: auto; overflow: visible; }
+  .orbit-caption{
+    position:absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; color: var(--text-faint);
+    text-align:center; white-space: nowrap;
+  }
+
+  .scroll-cue{
+    margin-top: 50px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    color: var(--text-faint); display:flex; align-items:center; gap: 10px;
+  }
+  .scroll-cue::after{
+    content:''; width: 1px; height: 28px; background: linear-gradient(var(--brass-dim), transparent);
+    animation: pulse-line 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse-line{ 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{ margin-bottom: 52px; }
+  .section-tag{
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--brass); margin-bottom: 14px; display:block;
+  }
+  h2{
+    font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+    margin: 0; color: var(--text);
+  }
+  .section-intro{ color: var(--text-dim); max-width: 62ch; margin-top: 14px; font-size: 1rem; }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: start; }
+  .about-copy p{ color: var(--text-dim); margin: 0 0 18px; font-size: 1.02rem; }
+  .about-copy strong{ color: var(--text); font-weight: 500; }
+  .fact-panel{
+    background: var(--bg-panel); border: 1px solid var(--line); border-radius: 2px; padding: 28px 26px;
+  }
+  .fact-row{
+    display:flex; justify-content: space-between; gap: 16px; padding: 12px 0;
+    border-bottom: 1px solid var(--line); font-size: 0.92rem;
+  }
+  .fact-row:last-child{ border-bottom: none; }
+  .fact-row dt{ color: var(--text-faint); font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; margin:0; }
+  .fact-row dd{ margin:0; color: var(--text); text-align: right; }
+
+  /* ---------- HERO ACTIONS ---------- */
+  .hero-actions{ display:flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
+  .btn{
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 11px 20px; border: 1px solid var(--line); border-radius: 2px; text-decoration: none;
+    color: var(--text-dim); transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .btn:hover{ border-color: var(--brass); color: var(--brass); background: var(--bg-panel-2); }
+  .btn.primary{ border-color: var(--brass-dim); color: var(--brass); }
+  .btn.primary:hover{ background: var(--brass); color: var(--bg); }
+
+  /* ---------- PROJECT STORY CARDS ---------- */
+  .story-card{
+    border: 1px solid var(--line); border-radius: 2px; background: var(--bg-panel);
+    margin-bottom: 42px; overflow: hidden;
+  }
+  .story-photo{
+    aspect-ratio: 16/7; width: 100%;
+    background: var(--bg-panel-2);
+    display:flex; align-items:center; justify-content:center; text-align:center; padding: 20px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; color: var(--text-faint);
+    border-bottom: 1px solid var(--line);
+  }
+  .story-body{ padding: 30px 32px 32px; }
+  .story-head{
+    display:flex; justify-content: space-between; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .story-title{ font-family: var(--serif); font-size: 1.4rem; font-weight: 500; color: var(--text); margin: 0; }
+  .story-status{ font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brass-dim); white-space: nowrap; }
+  .story-cols{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .story-col h4{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--cyan); margin: 0 0 10px;
+  }
+  .story-col p{ color: var(--text-dim); font-size: 0.92rem; margin: 0; }
+  .story-col ul{ color: var(--text-dim); font-size: 0.92rem; margin: 0; padding-left: 18px; }
+  .story-col li{ margin-bottom: 5px; }
+  .story-tags{ display:flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .tag{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--cyan);
+    border: 1px solid rgba(111,207,192,0.35); padding: 4px 9px; border-radius: 2px;
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+  .gallery-item{
+    aspect-ratio: 4/3;
+    background: var(--bg-panel-2);
+    border: 1px solid var(--line); border-radius: 2px;
+    display:flex; align-items:center; justify-content:center; text-align:center; padding: 16px;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--text-faint);
+  }
+
+  /* ---------- LEADERSHIP / SKILLS ---------- */
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .card{
+    background: var(--bg-panel); border: 1px solid var(--line); padding: 30px 28px; border-radius: 2px;
+  }
+  .card h3{
+    font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin: 0 0 12px; color: var(--text);
+  }
+  .card p{ color: var(--text-dim); font-size: 0.96rem; margin: 0; }
+
+  .skills-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 6px; }
+  .skill-item{
+    border: 1px solid var(--line); padding: 18px 20px; border-radius: 2px; background: var(--bg-panel-2);
+  }
+  .skill-item .skill-label{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--brass); display:block; margin-bottom: 8px;
+  }
+  .skill-item .skill-detail{ color: var(--text-dim); font-size: 0.9rem; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-panel{
+    display:flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 30px;
+    border-top: 1px solid var(--line); padding-top: 44px;
+  }
+  .contact-copy h2{ margin-bottom: 10px; }
+  .contact-copy p{ color: var(--text-dim); max-width: 46ch; margin:0; }
+  .contact-links{ display:flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+  .contact-links a{
+    font-family: var(--mono); font-size: 13px; color: var(--text); text-decoration: none;
+    border-bottom: 1px solid var(--line); padding-bottom: 3px; transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-links a:hover{ color: var(--brass); border-color: var(--brass); }
+
+  footer{
+    position: relative; z-index: 1; text-align:center; padding: 40px 6vw 50px;
+    font-family: var(--mono); font-size: 11px; color: var(--text-faint); letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 860px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .orbit-wrap{ order: -1; margin-bottom: 10px; }
+    .about-grid, .two-col{ grid-template-columns: 1fr; gap: 30px; }
+    .story-cols{ grid-template-columns: 1fr; gap: 20px; }
+    nav{ display:none; }
+    .nav-toggle{ display:block; }
+    .fact-row dd{ text-align: left; }
+    .contact-panel{ flex-direction: column; align-items: flex-start; }
+    .contact-links{ align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="starfield" aria-hidden="true"></div>
+
+<header>
+  <a href="#top" class="brand">J. <strong>SEON</strong> // TRAJECTORY LOG</a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#work">Projects</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#lab">Lab</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle">MENU</button>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" class="mob-link">About</a>
+  <a href="#work" class="mob-link">Projects</a>
+  <a href="#gallery" class="mob-link">Gallery</a>
+  <a href="#lab" class="mob-link">Lab</a>
+  <a href="#skills" class="mob-link">Skills</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Astrodynamics &middot; GNC &middot; Space Domain Awareness</div>
+      <h1 class="name">JuHyeong <em>Jenny</em> Seon</h1>
+      <p class="role-line">Aerospace engineering student mapping the paths between where a spacecraft is and where it needs to be — from three-body orbit families to the hardware that keeps a satellite pointed correctly.</p>
+      <div class="hero-meta">
+        <span>Saint Louis University</span> &middot;
+        <span>Rising Senior</span> &middot;
+        <span>Expected <b>May 2027</b></span> &middot;
+        <span>GPA <b>3.83</b>/4.0</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn primary" href="resume.pdf" target="_blank">Download Resume</a>
+        <a class="btn" href="https://github.com" target="_blank">GitHub</a>
+        <a class="btn" href="https://linkedin.com" target="_blank">LinkedIn</a>
+      </div>
+      <div class="scroll-cue">SCROLL TO PROJECTS</div>
+    </div>
+    <div class="orbit-wrap">
+      <svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated diagram of a halo orbit around a libration point">
+        <defs>
+          <radialGradient id="bodyGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#d9a857" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#d9a857" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="satGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#6fcfc0" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#6fcfc0" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="230" cy="230" r="200" fill="none" stroke="rgba(159,178,209,0.08)" stroke-width="1"/>
+        <circle cx="230" cy="230" r="150" fill="none" stroke="rgba(159,178,209,0.08)" stroke-width="1"/>
+        <g stroke="rgba(159,178,209,0.18)" stroke-width="1">
+          <line x1="230" y1="10" x2="230" y2="30"/>
+          <line x1="230" y1="430" x2="230" y2="450"/>
+          <line x1="10" y1="230" x2="30" y2="230"/>
+          <line x1="430" y1="230" x2="450" y2="230"/>
+        </g>
+        <path id="haloPath" d="M 230 90 C 340 90, 400 160, 400 230 C 400 300, 340 370, 230 370 C 150 370, 100 320, 100 230 C 100 160, 150 90, 230 90 Z" fill="none" stroke="rgba(111,207,192,0.55)" stroke-width="1.4" stroke-dasharray="2 5"/>
+        <circle cx="230" cy="230" r="46" fill="url(#bodyGlow)"/>
+        <circle cx="230" cy="230" r="5" fill="#d9a857"/>
+        <text x="230" y="212" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#93a0b8" letter-spacing="1">L2</text>
+        <circle r="14" fill="url(#satGlow)">
+          <animateMotion dur="9s" repeatCount="indefinite" path="M 230 90 C 340 90, 400 160, 400 230 C 400 300, 340 370, 230 370 C 150 370, 100 320, 100 230 C 100 160, 150 90, 230 90 Z"/>
+        </circle>
+        <circle r="3.4" fill="#ece7db">
+          <animateMotion dur="9s" repeatCount="indefinite" path="M 230 90 C 340 90, 400 160, 400 230 C 400 300, 340 370, 230 370 C 150 370, 100 320, 100 230 C 100 160, 150 90, 230 90 Z"/>
+        </circle>
+      </svg>
+      <div class="orbit-caption">L2 HALO ORBIT &middot; GNC REFERENCE FRAME</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-head">
+    <span class="section-tag">01 &mdash; About</span>
+    <h2>Working at the math-heavy end of the mission.</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-copy">
+      <p>I'm an aerospace engineering undergraduate at <strong>Saint Louis University</strong>, most at home in the parts of the discipline that are really just applied mathematics: astrodynamics, trajectory optimization, space mission design, and guidance, navigation &amp; control.</p>
+      <p>Within that, I keep coming back to <strong>orbital mechanics</strong> and <strong>space domain awareness</strong> &mdash; the problem of knowing precisely where something is, and where it's going, in a dynamical system that doesn't hold still.</p>
+      <p>Alongside coursework, I serve as Communications Subsystem Co-Lead in SLU's Space Systems Research Lab, working on missions like SARDONYX (NS-12) and DARLA, alongside CFD research studying biomimetic filtration and whale gliding hydrodynamics.</p>
+      <div class="log-tags">
+        <span class="tag">Spacecraft GNC</span><span class="tag">ADCS</span><span class="tag">GNSS / EKF</span>
+        <span class="tag">SDR / RF Comms</span><span class="tag">Simulink GNC</span><span class="tag">CFD</span>
+      </div>
+    </div>
+    <div class="fact-panel">
+      <dl>
+        <div class="fact-row"><dt>Program</dt><dd>Aerospace Engineering, BS</dd></div>
+        <div class="fact-row"><dt>Status</dt><dd>Rising Senior</dd></div>
+        <div class="fact-row"><dt>Graduation</dt><dd>May 2027</dd></div>
+        <div class="fact-row"><dt>GPA</dt><dd>3.83 / 4.0</dd></div>
+        <div class="fact-row"><dt>Focus</dt><dd>Astrodynamics &amp; GNC</dd></div>
+        <div class="fact-row"><dt>Lab role</dt><dd>Comms Subsystem Co-Lead</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-head">
+    <span class="section-tag">02 &mdash; Projects &amp; Research</span>
+    <h2>Mission Hardware &amp; Simulations</h2>
+    <p class="section-intro">Detailed breakdown of contributions to SSRL CubeSat programs (SARDONYX &amp; DARLA), ground station RF troubleshooting, and CFD research.</p>
+  </div>
+
+  <!-- Project 1: SARDONYX / DARLA Comms & Ground Station -->
+  <div class="story-card">
+    <div class="story-photo">SARDONYX (NS-12) &amp; DARLA Ground Station Upgrades &amp; RF Troubleshooting</div>
+    <div class="story-body">
+      <div class="story-head">
+        <h3 class="story-title">CubeSat Communications &amp; Ground Station Troubleshooting</h3>
+        <span class="story-status">Active / Summer 2025 NASA MSGC Funded</span>
+      </div>
+      <div class="story-cols">
+        <div class="story-col">
+          <h4>Problem</h4>
+          <p>SLU's ground station required full environment migration to a new computer, resolution of ARES/DARLAUI version mismatches, and severe carrier signal interference that threatened on-orbit UHF operations[cite: 4].</p>
+        </div>
+        <div class="story-col">
+          <h4>My Contribution</h4>
+          <ul>
+            <li>Served as Communications Subsystem Co-Lead managing UHF/S-Band operations[cite: 4].</li>
+            <li>Resolved ARES C++/Python dependency conflicts and BladeRF FPGA firmware errors[cite: 4].</li>
+            <li>Designed a MATLAB RF Toolbox hairpin bandpass filter and implemented GNU Radio signal processing[cite: 4].</li>
+            <li>Successfully isolated and eliminated spurious carrier noise by transitioning transmit operations to a half-duplex HackRF One SDR[cite: 4].</li>
+          </ul>
+        </div>
+        <div class="story-col">
+          <h4>Results</h4>
+          <p>Restored stable two-way telemetry link between ground station hardware and space flight models under NASA CSLI / University Nanosatellite Program frameworks[cite: 4].</p>
+        </div>
+      </div>
+      <div class="story-tags">
+        <span class="tag">RF Comms</span><span class="tag">BladeRF / HackRF</span><span class="tag">GNU Radio</span><span class="tag">MATLAB RF Toolbox</span><span class="tag">Python</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 2: Simulink GNC & CubeSat Custom Pointing -->
+  <div class="story-card">
+    <div class="story-photo">Simulink 12U CubeSat GNC Architecture &amp; Custom Pointing Model</div>
+    <div class="story-body">
+      <div class="story-head">
+        <h3 class="story-title">Active Pointing &amp; EKF Navigation Pipeline</h3>
+        <span class="story-status">In Testing / Simulation</span>
+      </div>
+      <div class="story-cols">
+        <div class="story-col">
+          <h4>Problem</h4>
+          <p>A 12U CubeSat platform (SARDONYX) required precise attitude determination and active 6DOF close-proximity maneuvering relative to an uncontrolled tumbling space object[cite: 2].</p>
+        </div>
+        <div class="story-col">
+          <h4>My Contribution</h4>
+          <ul>
+            <li>Engineered Simulink architecture for EKF state estimation using NovAtel OEM719 GNSS data parsing pipelines[cite: 1].</li>
+            <li>Implemented coordinate transformation blocks (ICRF, ECEF, NED, Body frames) via custom MATLAB Stateflow functions[cite: 1].</li>
+            <li>Modeled magnetic field dynamics (IGRF) and custom attitude control loops combining magnetorquers and cold-gas thrusters[cite: 1].</li>
+          </ul>
+        </div>
+        <div class="story-col">
+          <h4>Results</h4>
+          <p>Fully functional simulation framework tracking pointing modes, detumbling sequences, and orbital perturbations under third-body gravity and solar radiation pressure[cite: 1].</p>
+        </div>
+      </div>
+      <div class="story-tags">
+        <span class="tag">Simulink</span><span class="tag">Stateflow</span><span class="tag">GNC</span><span class="tag">EKF</span><span class="tag">Astrodynamics</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 3: CFD Research (Baleen Lab / FIRE-BALEEN) -->
+  <div class="story-card">
+    <div class="story-photo">Computational Fluid Dynamics &mdash; FIRE-BALEEN Program</div>
+    <div class="story-body">
+      <div class="story-head">
+        <h3 class="story-title">Biomimetic CFD &amp; Whale Hydrodynamics Research</h3>
+        <span class="story-status">Complete</span>
+      </div>
+      <div class="story-cols">
+        <div class="story-col">
+          <h4>Problem</h4>
+          <p>Evaluating crossflow filtration parameters and pressure-velocity coupling for bio-inspired microplastics extraction filters, alongside investigating lift generation during whale gliding[cite: 3].</p>
+        </div>
+        <div class="story-col">
+          <h4>My Contribution</h4>
+          <ul>
+            <li>Utilized commercial CFD software SC/Tetra to simulate water tunnel flow fields across realistic whale models from photogrammetry[cite: 3].</li>
+            <li>Implemented SIMPLE, SIMPLER, and PISO schemes with upwind and QUICK discretization comparisons in MATLAB[cite: 3].</li>
+            <li>Analyzed pressure distributions and shear forces acting on the body during anhedral fluked gliding[cite: 3].</li>
+          </ul>
+        </div>
+        <div class="story-col">
+          <h4>Results</h4>
+          <p>Quantified pressure stagnation gradients and uniform flow characteristics in the laboratory test flume, validating lift generation mechanisms[cite: 3].</p>
+        </div>
+      </div>
+      <div class="story-tags">
+        <span class="tag">CFD</span><span class="tag">SC/Tetra</span><span class="tag">MATLAB</span><span class="tag">Baleen Lab</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-head">
+    <span class="section-tag">03 &mdash; Gallery</span>
+    <h2>Lab &amp; Testing Visuals</h2>
+    <p class="section-intro">Documentation from hardware assembly, ground station tests, and simulation outputs.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">SARDONYX 12U Bus Assembly &amp; Cleanroom</div>
+    <div class="gallery-item">UHF Ground Station Antenna Setup</div>
+    <div class="gallery-item">MATLAB Hairpin Bandpass Filter S-Parameters</div>
+    <div class="gallery-item">Simulink GNC Architecture Schematic</div>
+    <div class="gallery-item">SC/Tetra CFD Pressure Contour Plot</div>
+    <div class="gallery-item">Baleen Lab Water Flume Setup</div>
+  </div>
+</section>
+
+<section id="lab">
+  <div class="section-head">
+    <span class="section-tag">04 &mdash; Lab &amp; Leadership</span>
+    <h2>Team Leadership &amp; Community Engagement</h2>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3>Communications Subsystem Co-Lead &mdash; SSRL</h3>
+      <p>Directing radio frequency subsystem integration, UHF ground station network maintenance, and S-Band transceiver development for SLU's student-led satellite missions under NASA CSLI and Air Force Research Lab programs[cite: 2, 4].</p>
+    </div>
+    <div class="card">
+      <h3>Project &amp; Program Coordinator &mdash; Engineers Without Borders</h3>
+      <p>Coordinating long-term community outreach initiatives and structuring monthly engineering volunteer projects and technical training modules.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="section-head">
+    <span class="section-tag">05 &mdash; Toolset</span>
+    <h2>Languages &amp; Engineering Tools</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-item">
+      <span class="skill-label">Python &amp; MATLAB</span>
+      <div class="skill-detail">Data parsing pipelines, EKF navigation algorithms, Simulink modeling</div>
+    </div>
+    <div class="skill-item">
+      <span class="skill-label">Simulink &amp; Stateflow</span>
+      <div class="skill-detail">Spacecraft dynamics, orbit propagation, GNC architecture design</div>
+    </div>
+    <div class="skill-item">
+      <span class="skill-label">GNU Radio / SDR</span>
+      <div class="skill-detail">HackRF One, BladeRF, digital signal processing, RF filtering</div>
+    </div>
+    <div class="skill-item">
+      <span class="skill-label">KiCad / CAD</span>
+      <div class="skill-detail">RF switch board PCB layout, mechanical hardware schematics</div>
+    </div>
+    <div class="skill-item">
+      <span class="skill-label">CFD Software</span>
+      <div class="skill-detail">SC/Tetra mesh generation, boundary condition optimization</div>
+    </div>
+    <div class="skill-item">
+      <span class="skill-label">Languages</span>
+      <div class="skill-detail">English (Technical/Formal), Korean (Native/Strategic)</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-panel">
+    <div class="contact-copy">
+      <h2>Get in touch</h2>
+      <p>Open to professional opportunities and discussions regarding astrodynamics, GNC engineering, and space mission design.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:your.email@slu.edu">juhyeong.seon@slu.edu</a>
+      <a href="https://linkedin.com" target="_blank">linkedin.com/in/juhyeong-seon</a>
+      <a href="https://github.com" target="_blank">github.com/juhyeong-seon</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2026 JUHYEONG SEON &middot; SAINT LOUIS UNIVERSITY &middot; AEROSPACE ENGINEERING
+</footer>
+
+<script>
+  // Mobile Navigation Toggle Script
+  const navToggle = document.getElementById('navToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  navToggle.addEventListener('click', () => {
+    mobileNav.classList.toggle('active');
+  });
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+    });
+  });
+</script>
+
+</body>
+</html>
